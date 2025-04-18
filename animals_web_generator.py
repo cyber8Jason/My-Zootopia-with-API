@@ -1,20 +1,7 @@
-import requests
-import json
+import data_fetcher
 
 
-API_URL = "https://api.api-ninjas.com/v1/animals?name="
-API_KEY = "iW1MsjidDZudxSWyk46tTg==ODsquybYVL1j077z"
 OUTPUT_FILE = "animals.html"
-
-
-def get_animal_data(name):
-    """ gets the user input as JSON data from the animal API """
-    response = requests.get(API_URL + name, headers={'X-Api-Key': API_KEY})
-    if response.status_code == requests.codes.ok:
-        return response.json()
-    else:
-        print("❌ Error:", response.status_code, response.text)
-        return []
 
 
 def serialize_animal(animal):
@@ -55,7 +42,7 @@ def save_html(data, file_name):
 
 def main():
     name = input("Enter a name for an animal: ")
-    animal_data = get_animal_data(name)
+    animal_data = data_fetcher.fetch_data(name)
     if not animal_data:
         output = f"<h2>The animal \"{name}\" doesn't exist.</h2>\n"
     else:
